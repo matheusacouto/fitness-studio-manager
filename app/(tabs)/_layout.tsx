@@ -44,12 +44,6 @@ export default function TabBar() {
     setOpen(!open)
   }
 
-  // Estilos animados dos botões ao redor
-  const animatedStyleMiddle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }, { translateY: translateY.value }],
-    opacity: scale.value,
-  }))
-
   const animatedStyleLeft = useAnimatedStyle(() => ({
     transform: [
       { scale: scale.value },
@@ -117,7 +111,8 @@ export default function TabBar() {
           <Animated.View style={[styles.fabOption, animatedStyleLeft]}>
             <TouchableOpacity
               style={styles.fabSmall}
-              onPress={() => router.push('/new_lesson')}
+              onPress={() => router.push('/(create)/new_lesson')}
+              onPressOut={toggleMenu}
             >
               <MaterialCommunityIcons
                 name="account-group-outline"
@@ -130,7 +125,8 @@ export default function TabBar() {
           <Animated.View style={[styles.fabOption, animatedStyleRight]}>
             <TouchableOpacity
               style={styles.fabSmall}
-              onPress={() => router.push('/new_student')}
+              onPress={() => router.push('/(create)/new_student')}
+              onPressOut={toggleMenu}
             >
               <MaterialCommunityIcons
                 name="weight-lifter"
@@ -152,34 +148,28 @@ export default function TabBar() {
       <CurvedBottomBarExpo.Screen
         name="home"
         position="LEFT"
-        component={() => <HomePage />}
+        component={HomePage}
       />
       <CurvedBottomBarExpo.Screen
         name="lesson_list"
         position="LEFT"
-        component={() => <LessonList />}
+        component={LessonList}
       />
       <CurvedBottomBarExpo.Screen
         name="financial"
         position="RIGHT"
-        component={() => <FinancialPage />}
+        component={FinancialPage}
       />
       <CurvedBottomBarExpo.Screen
         name="account"
         position="RIGHT"
-        component={() => <AccountPage />}
+        component={AccountPage}
       />
     </CurvedBottomBarExpo.Navigator>
   )
 }
 
 export const styles = StyleSheet.create({
-  fabContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    bottom: 30,
-  },
   fabMain: {
     backgroundColor: '#fff',
     width: 60,

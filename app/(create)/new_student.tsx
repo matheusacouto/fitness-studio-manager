@@ -1,13 +1,31 @@
 import React from 'react'
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
 
+import { useSQLiteContext } from 'expo-sqlite'
+
 export default function NewStudent() {
+  const db = useSQLiteContext()
+
   const [name, setName] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [phone, setPhone] = React.useState('')
+  const [plan, setPlan] = React.useState('')
 
-  const handleSubmit = () => {
-    console.log({ name, email, phone })
+  const handleSubmit = async () => {
+    try {
+      const submit = await db.runAsync(
+        `INSERT INTO client (name, email, phone, plan) VALUES (?, ?, ?, ?)`,
+        [name, email, phone, plan],
+      )
+      console.log(
+        'Inserted ID:',
+        submit.lastInsertRowId,
+        'Changes:',
+        submit.changes,
+      )
+    } catch (error) {
+      console.error('Failed to insert client:', error)
+    }
   }
 
   return (
@@ -30,6 +48,12 @@ export default function NewStudent() {
         placeholder="Phone"
         value={phone}
         onChangeText={(text) => setPhone(text)}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Plan"
+        value={plan}
+        onChangeText={(text) => setPlan(text)}
       />
       <Button title="Create Student" onPress={handleSubmit} />
     </View>

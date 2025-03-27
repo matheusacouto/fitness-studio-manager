@@ -32,6 +32,7 @@ yarn-error.*
 *.pem
 
 # local env files
+nativewind-env.d.ts
 .env*.local
 
 # typescript

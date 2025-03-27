@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
+
+// eslint-disable-next-line import/no-unresolved
 
 export default function NewLesson() {
   const [name, setName] = React.useState('')
