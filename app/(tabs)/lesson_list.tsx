@@ -2,17 +2,16 @@ import React, { useEffect, useMemo, useState } from 'react'
 import CalendarStrip from 'react-native-calendar-strip'
 import { StyleSheet, Text, View } from 'react-native'
 import Timeline from 'react-native-timeline-flatlist'
-import LessonCard from '@/src/components/LessonCard'
+import LessonCard from '@/src/components/Card'
 
 import moment from 'moment'
 import 'moment/locale/pt-br'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function LessonList() {
   const [selectedDate, setSelectedDate] = useState(moment())
 
   useEffect(() => {
-    moment.locale('pt-br') // define o idioma globalmente
+    moment.locale('pt-br')
   }, [])
 
   useEffect(() => {
@@ -103,7 +102,7 @@ export default function LessonList() {
   }, [dataComCores, selectedDate])
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <CalendarStrip
         scrollable
         daySelectionAnimation={{
@@ -135,8 +134,8 @@ export default function LessonList() {
         dateNameStyle={{ fontSize: 12 }}
         onDateSelected={(date) => setSelectedDate(date)}
         selectedDate={selectedDate}
-        minDate={moment().startOf('month')}
-        maxDate={moment().endOf('month')}
+        minDate={moment().subtract(15, 'days')}
+        maxDate={moment().add(15, 'days')}
       />
       <Timeline
         data={filteredData}
@@ -157,13 +156,13 @@ export default function LessonList() {
               {rowData.time}
             </Text>
             <LessonCard
-              style={{
+              cardStyle={{
                 backgroundColor: rowData.cardColor,
                 elevation: 7,
                 marginRight: 15,
               }}
               data={{
-                teacher: rowData.teacher,
+                subtitle: rowData.teacher,
                 id: rowData.id,
                 title: rowData.title,
                 description: rowData.description,
@@ -172,7 +171,7 @@ export default function LessonList() {
           </View>
         )}
       />
-    </SafeAreaView>
+    </View>
   )
 }
 

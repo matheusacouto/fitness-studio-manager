@@ -10,9 +10,11 @@ import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import * as React from 'react'
 import { Platform } from 'react-native'
-import { NAV_THEME } from '@/src/lib/constants'
-import { useColorScheme } from '@/src/lib/useColorScheme'
+import { NAV_THEME } from '@/src/utils/constants'
+import { useColorScheme } from '@/src/utils/useColorScheme'
 import { SQLiteProvider } from 'expo-sqlite'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import Header from '@/src/components/Header'
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -52,25 +54,35 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+      <StatusBar style="dark" />
       <SQLiteProvider databaseName="database.db">
-        <Stack screenOptions={{ headerTransparent: true }}>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="(create)/new_lesson"
-            options={{
-              title: 'Nova turma',
-              headerTitleAlign: 'center',
-            }}
-          />
-          <Stack.Screen
-            name="(create)/new_student"
-            options={{
-              title: 'Novo aluno',
-              headerTitleAlign: 'center',
-            }}
-          />
-        </Stack>
+        <SafeAreaView style={{ flex: 1 }}>
+          <Stack>
+            <Stack.Screen
+              name="(tabs)"
+              options={{ header: () => <Header /> }}
+            />
+            <Stack.Screen
+              name="(create)/new_lesson"
+              options={{
+                title: 'Nova turma',
+                presentation: 'formSheet',
+                sheetAllowedDetents: 'fitToContents',
+                sheetCornerRadius: 20,
+              }}
+            />
+            <Stack.Screen
+              name="(create)/new_student"
+              options={{
+                title: 'Novo aluno',
+                headerTitleAlign: 'center',
+                presentation: 'formSheet',
+                sheetAllowedDetents: 'fitToContents',
+                sheetCornerRadius: 20,
+              }}
+            />
+          </Stack>
+        </SafeAreaView>
       </SQLiteProvider>
     </ThemeProvider>
   )

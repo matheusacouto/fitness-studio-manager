@@ -13,7 +13,7 @@ import Animated, {
 
 import HomePage from '.'
 import AccountPage from './account'
-import FinancialPage from './finance'
+import FinancialPage from './client_list'
 import LessonList from './lesson_list'
 
 export default function TabBar() {
@@ -37,9 +37,9 @@ export default function TabBar() {
     } else {
       scale.value = withTiming(1, { duration: 300 })
       translateY.value = withTiming(-70, { duration: 300 })
-      translateX1.value = withTiming(-50, { duration: 300 }) // Sai para esquerda
-      translateX2.value = withTiming(50, { duration: 300 }) // Sai para direita
-      rotate.value = withTiming(45, { duration: 300 })
+      translateX1.value = withTiming(50, { duration: 300 }) // Move to right
+      translateX2.value = withTiming(-50, { duration: 300 }) // Move to left
+      rotate.value = withTiming(90, { duration: 300 }) // Rotate 90 degrees
     }
     setOpen(!open)
   }
@@ -67,17 +67,15 @@ export default function TabBar() {
   }))
 
   const _renderIcon = (routeName, selectedTab) => {
-    return (
+    return routeName === 'home' || routeName === 'lesson_list' ? (
       <Ionicons
-        name={
-          routeName === 'home'
-            ? 'home-outline'
-            : routeName === 'account'
-              ? 'person-outline'
-              : routeName === 'lesson_list'
-                ? 'clipboard-outline'
-                : 'cash-outline'
-        }
+        name={routeName === 'home' ? 'home-outline' : 'calendar-outline'}
+        size={25}
+        color={routeName === selectedTab ? 'black' : 'gray'}
+      />
+    ) : (
+      <MaterialCommunityIcons
+        name="weight-lifter"
         size={25}
         color={routeName === selectedTab ? 'black' : 'gray'}
       />
@@ -99,6 +97,7 @@ export default function TabBar() {
     <CurvedBottomBarExpo.Navigator
       screenOptions={{ headerShown: false }}
       type="DOWN"
+      circlePosition="RIGHT"
       style={styles.bottomBar}
       shadowStyle={styles.shadow}
       height={55}
@@ -125,7 +124,7 @@ export default function TabBar() {
           <Animated.View style={[styles.fabOption, animatedStyleRight]}>
             <TouchableOpacity
               style={styles.fabSmall}
-              onPress={() => router.push('/(create)/new_student')}
+              onPress={() => router.push('/(create)/new_client')}
               onPressOut={toggleMenu}
             >
               <MaterialCommunityIcons
@@ -152,19 +151,19 @@ export default function TabBar() {
       />
       <CurvedBottomBarExpo.Screen
         name="lesson_list"
-        position="LEFT"
+        position="RIGHT"
         component={LessonList}
       />
       <CurvedBottomBarExpo.Screen
         name="financial"
-        position="RIGHT"
+        position="LEFT"
         component={FinancialPage}
       />
-      <CurvedBottomBarExpo.Screen
+      {/* <CurvedBottomBarExpo.Screen
         name="account"
         position="RIGHT"
         component={AccountPage}
-      />
+      /> */}
     </CurvedBottomBarExpo.Navigator>
   )
 }
@@ -177,7 +176,7 @@ export const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 5,
+    // elevation: 5,
   },
   fabOption: {
     position: 'absolute',
