@@ -55,12 +55,9 @@
         "expo-font",
         {
           "fonts": [
-            {
-              "georgia": "./assets/fonts/georgia.ttf"
-            },
+            "./src/assets/fonts/georgia.ttf",
+            "./src/assets/fonts/georgiab.ttf"
           ]
-          
-          
         }
       ]
     ],

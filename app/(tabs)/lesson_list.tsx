@@ -25,6 +25,8 @@ export default function LessonList() {
     return `rgb(${r}, ${g}, ${b})`
   }
 
+  // Exemples of data
+
   const data = [
     {
       id: 1,

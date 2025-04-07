@@ -72,7 +72,7 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
-              name="(create)/new_student"
+              name="(create)/new_client"
               options={{
                 title: 'Novo aluno',
                 headerTitleAlign: 'center',
