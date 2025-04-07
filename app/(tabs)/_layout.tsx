@@ -12,55 +12,51 @@ import Animated, {
 } from 'react-native-reanimated'
 
 import HomePage from '.'
-import AccountPage from './account'
-import FinancialPage from './client_list'
+import ClientList from './client_list'
 import LessonList from './lesson_list'
 
 export default function TabBar() {
   const [open, setOpen] = useState(false)
-
-  // Valores animáveis para cada botão
-  const scale = useSharedValue(0)
   const rotate = useSharedValue(0)
-  const translateY = useSharedValue(0)
-  const translateX1 = useSharedValue(0) // Esquerda
-  const translateX2 = useSharedValue(0) // Direita
+  const progress1 = useSharedValue(0) // Para weight-lifter (90°)
+  const progress2 = useSharedValue(0) // Para account-group-outline (135°)
 
-  // Função para animar os botões e girar o FAB principal
   const toggleMenu = () => {
     if (open) {
-      scale.value = withTiming(0, { duration: 300 })
-      translateY.value = withTiming(0, { duration: 300 })
-      translateX1.value = withTiming(0, { duration: 300 })
-      translateX2.value = withTiming(0, { duration: 300 })
+      progress1.value = withTiming(0, { duration: 300 })
+      progress2.value = withTiming(0, { duration: 300 })
       rotate.value = withTiming(0, { duration: 300 })
     } else {
-      scale.value = withTiming(1, { duration: 300 })
-      translateY.value = withTiming(-70, { duration: 300 })
-      translateX1.value = withTiming(50, { duration: 300 }) // Move to right
-      translateX2.value = withTiming(-50, { duration: 300 }) // Move to left
-      rotate.value = withTiming(90, { duration: 300 }) // Rotate 90 degrees
+      progress1.value = withTiming(1, { duration: 500 })
+      progress2.value = withTiming(1, { duration: 600 }) // levemente defasado
+      rotate.value = withTiming(45, { duration: 300 })
     }
     setOpen(!open)
   }
 
-  const animatedStyleLeft = useAnimatedStyle(() => ({
-    transform: [
-      { scale: scale.value },
-      { translateY: translateY.value + 20 },
-      { translateX: translateX1.value },
-    ],
-    opacity: scale.value,
-  }))
+  const radius = 80
 
-  const animatedStyleRight = useAnimatedStyle(() => ({
-    transform: [
-      { scale: scale.value },
-      { translateY: translateY.value + 20 },
-      { translateX: translateX2.value },
-    ],
-    opacity: scale.value,
-  }))
+  const useOrbitStyle = (angleInDegrees, progress) => {
+    const angleRad = (angleInDegrees * Math.PI) / 180
+
+    return useAnimatedStyle(() => {
+      const currentAngle = angleRad * progress.value
+      const x = radius * Math.cos(currentAngle)
+      const y = radius * Math.sin(currentAngle)
+
+      return {
+        transform: [
+          { translateX: x },
+          { translateY: -y },
+          { scale: progress.value },
+        ],
+        opacity: progress.value,
+      }
+    })
+  }
+
+  const animatedStyleLeft = useOrbitStyle(135, progress2)
+  const animatedStyleRight = useOrbitStyle(90, progress1)
 
   const animatedIconStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${rotate.value}deg` }],
@@ -98,7 +94,6 @@ export default function TabBar() {
       screenOptions={{ headerShown: false }}
       type="DOWN"
       circlePosition="RIGHT"
-      style={styles.bottomBar}
       shadowStyle={styles.shadow}
       height={55}
       circleWidth={50}
@@ -107,7 +102,10 @@ export default function TabBar() {
       borderTopLeftRight
       renderCircle={({ selectedTab, navigate }) => (
         <View style={styles.btnCircleUp}>
-          <Animated.View style={[styles.fabOption, animatedStyleLeft]}>
+          <Animated.View
+            style={[styles.fabOption, animatedStyleLeft]}
+            pointerEvents={open ? 'auto' : 'none'}
+          >
             <TouchableOpacity
               style={styles.fabSmall}
               onPress={() => router.push('/(create)/new_lesson')}
@@ -121,7 +119,10 @@ export default function TabBar() {
             </TouchableOpacity>
           </Animated.View>
 
-          <Animated.View style={[styles.fabOption, animatedStyleRight]}>
+          <Animated.View
+            style={[styles.fabOption, animatedStyleRight]}
+            pointerEvents={open ? 'auto' : 'none'}
+          >
             <TouchableOpacity
               style={styles.fabSmall}
               onPress={() => router.push('/(create)/new_client')}
@@ -136,7 +137,10 @@ export default function TabBar() {
           </Animated.View>
 
           <TouchableOpacity style={styles.fabMain} onPress={toggleMenu}>
-            <Animated.View style={animatedIconStyle}>
+            <Animated.View
+              style={animatedIconStyle}
+              key={open ? 'open-left' : 'closed-left'}
+            >
               <Ionicons name="add" size={30} color="black" />
             </Animated.View>
           </TouchableOpacity>
@@ -157,7 +161,7 @@ export default function TabBar() {
       <CurvedBottomBarExpo.Screen
         name="financial"
         position="LEFT"
-        component={FinancialPage}
+        component={ClientList}
       />
       {/* <CurvedBottomBarExpo.Screen
         name="account"
@@ -180,6 +184,7 @@ export const styles = StyleSheet.create({
   },
   fabOption: {
     position: 'absolute',
+    // zIndex: 10, // Adiciona isso para garantir que fique acima
   },
   fabSmall: {
     width: 45,
@@ -235,19 +240,5 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
     elevation: 1,
-  },
-  imgCircle: {
-    width: 30,
-    height: 30,
-    tintColor: 'gray',
-  },
-  tabbarItem: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  img: {
-    width: 30,
-    height: 30,
   },
 })
