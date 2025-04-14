@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react'
+import { useState } from 'react'
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
 
 // eslint-disable-next-line import/no-unresolved
 
 export default function NewLesson() {
-  const [name, setName] = React.useState('')
-  const [dayOfWeek, setDayOfWeek] = React.useState('')
-  const [startTime, setStartTime] = React.useState('')
-  const [endTime, setEndTime] = React.useState('')
-  const [teacherId, setTeacherId] = React.useState('')
-  const [maxClients, setMaxClients] = React.useState(0)
+  const [name, setName] = useState('')
+  const [dayOfWeek, setDayOfWeek] = useState('')
+  const [startTime, setStartTime] = useState('')
+  const [endTime, setEndTime] = useState('')
+  const [teacherId, setTeacherId] = useState('')
+  const [maxClients, setMaxClients] = useState('')
 
   const handleSubmit = () => {
     console.log({
@@ -26,6 +26,7 @@ export default function NewLesson() {
     <View style={styles.container}>
       <Text style={styles.title}>Criar Turma</Text>
       <TextInput
+        keyboardType="default"
         style={styles.input}
         placeholder="Nome"
         value={name}

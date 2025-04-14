@@ -1,23 +1,25 @@
+import { useColorScheme } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import {
   StyleProp,
   StyleSheet,
   ViewStyle,
   View,
-  Text,
   TextStyle,
   ImageBackground,
 } from 'react-native'
 import {
-  Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '~/src/components/ui/card'
+} from '@/src/components/ui/card'
 
-import cardImage from '../assets/images/imagecard.png'
+import { Text } from '@/src/components/ui/text'
+
+import LightImage from '@/src/assets/images/image-card-light.png'
+import DarkImage from '@/src/assets/images/image-card-dark.png'
 
 /**
  * Renders a lesson card with a title, description, and additional content.
@@ -25,9 +27,10 @@ import cardImage from '../assets/images/imagecard.png'
  * @param {number} id - The unique identifier for the lesson.
  * @param {string} title - The title of the lesson.
  * @param {string} [description] - The description of the lesson.
+ * @param {boolean} [isDarkTheme] - If true, the dark theme will be used. If false, the light theme will be used. If undefined, the theme will be determined by the device's theme settings.
  * @returns {JSX.Element} A JSX element representing the lesson card.
  */
-const renderImageCard = ({
+const RenderImageCard = ({
   cardStyle,
   headerStyle,
   contentStyle,
@@ -48,9 +51,12 @@ const renderImageCard = ({
   },
   footer?: string,
 }) => {
+  const deviceTheme = useColorScheme()
+  const isDarkTheme = deviceTheme === 'dark'
+
   return (
     <ImageBackground
-      source={cardImage}
+      source={isDarkTheme ? DarkImage : LightImage}
       imageStyle={{ borderRadius: 15 }}
       style={[styles.card, cardStyle]}
     >
@@ -60,14 +66,19 @@ const renderImageCard = ({
             fontFamily: 'georgia',
             fontSize: 20,
             fontWeight: 'bold',
-            color: 'white',
+            color: isDarkTheme ? 'black' : 'white',
           }}
         >
           {data.title}
         </CardTitle>
         {data.subtitle && (
           <CardDescription>
-            <Text style={{ fontFamily: 'georgia', color: 'white' }}>
+            <Text
+              style={{
+                fontFamily: 'georgia',
+                color: isDarkTheme ? 'black' : 'white',
+              }}
+            >
               Professora {data.subtitle}
             </Text>
           </CardDescription>
@@ -79,7 +90,7 @@ const renderImageCard = ({
             {
               fontFamily: 'georgia',
               lineHeight: 18,
-              color: 'white',
+              color: isDarkTheme ? 'black' : 'white',
               maxWidth: '70%',
             },
             contentTextStyle,
@@ -95,13 +106,17 @@ const renderImageCard = ({
               flex: 0.4,
               flexDirection: 'row',
               justifyContent: 'space-evenly',
-              backgroundColor: '#fff',
+              backgroundColor: isDarkTheme ? '#fff' : '#000',
               borderRadius: 5,
               padding: 5,
             }}
           >
             <View>
-              <Ionicons name="barbell-outline" size={20} color="#000" />
+              <Ionicons
+                name="barbell-outline"
+                size={20}
+                color={isDarkTheme ? '#000' : '#fff'}
+              />
             </View>
             <View>
               <Text
@@ -109,6 +124,7 @@ const renderImageCard = ({
                   marginLeft: 5,
                   fontFamily: 'georgia',
                   fontWeight: 'bold',
+                  color: isDarkTheme ? '#000' : '#fff',
                 }}
               >
                 {footer}
@@ -121,7 +137,7 @@ const renderImageCard = ({
   )
 }
 
-export default renderImageCard
+export default RenderImageCard
 
 const styles = StyleSheet.create({
   card: {

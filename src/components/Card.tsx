@@ -14,7 +14,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '~/src/components/ui/card'
+} from '@/src/components/ui/card'
 
 interface LessonCardProps {
   cardStyle?: StyleProp<ViewStyle>
