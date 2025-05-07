@@ -1,67 +1,67 @@
-import React, { useState } from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
-import { CurvedBottomBarExpo } from 'react-native-curved-bottom-bar'
-import Ionicons from '@expo/vector-icons/Ionicons'
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
-import { router } from 'expo-router'
+import React, { useState } from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { CurvedBottomBarExpo } from 'react-native-curved-bottom-bar';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { router } from 'expo-router';
 
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
-} from 'react-native-reanimated'
+} from 'react-native-reanimated';
 
-import Home from '@/src/app/(tabs)'
-import ClientList from '@/src/app/(tabs)/client-list'
-import Calendar from '@/src/app/(tabs)/calendar'
-import LessonList from '@/src/app/(tabs)/lesson-list'
+import Home from '@/src/app/(tabs)';
+import ClientList from '@/src/app/(tabs)/client-list';
+import Calendar from '@/src/app/(tabs)/calendar';
+import LessonList from '@/src/app/(tabs)/lesson-list';
 
-import { useColorScheme } from '@/src/hooks/useColorScheme'
-import { NAV_THEME } from '@/src/lib/constants'
+import { useColorScheme } from '@/src/hooks/useColorScheme';
+import { NAV_THEME } from '@/src/lib/constants';
 
 export default function CurvedBottomBar() {
-  const [open, setOpen] = useState(false)
-  const scale = useSharedValue(0)
-  const translateX1 = useSharedValue(0) // botão 1
-  const translateX2 = useSharedValue(0) // botão 2
-  const translateY1 = useSharedValue(0)
-  const translateY2 = useSharedValue(0)
-  const rotate = useSharedValue(0)
-  const radius = 80
+  const [open, setOpen] = useState(false);
+  const scale = useSharedValue(0);
+  const translateX1 = useSharedValue(0); // botão 1
+  const translateX2 = useSharedValue(0); // botão 2
+  const translateY1 = useSharedValue(0);
+  const translateY2 = useSharedValue(0);
+  const rotate = useSharedValue(0);
+  const radius = 80;
 
-  const { colorScheme } = useColorScheme()
+  const { colorScheme } = useColorScheme();
 
   const toggleMenu = () => {
     if (open) {
-      scale.value = withTiming(0, { duration: 300 })
-      translateX1.value = withTiming(0, { duration: 300 })
-      translateY1.value = withTiming(0, { duration: 300 })
-      translateX2.value = withTiming(0, { duration: 300 })
-      translateY2.value = withTiming(0, { duration: 300 })
-      rotate.value = withTiming(0, { duration: 300 })
+      scale.value = withTiming(0, { duration: 300 });
+      translateX1.value = withTiming(0, { duration: 300 });
+      translateY1.value = withTiming(0, { duration: 300 });
+      translateX2.value = withTiming(0, { duration: 300 });
+      translateY2.value = withTiming(0, { duration: 300 });
+      rotate.value = withTiming(0, { duration: 300 });
     } else {
-      const angle1 = (135 * Math.PI) / 180
+      const angle1 = (135 * Math.PI) / 180;
       translateX1.value = withTiming(radius * Math.cos(angle1), {
         duration: 300,
-      })
+      });
       translateY1.value = withTiming(-radius * Math.sin(angle1), {
         duration: 300,
-      })
+      });
 
-      const angle2 = (90 * Math.PI) / 180
+      const angle2 = (90 * Math.PI) / 180;
       translateX2.value = withTiming(radius * Math.cos(angle2), {
         duration: 300,
-      })
+      });
       translateY2.value = withTiming(-radius * Math.sin(angle2), {
         duration: 300,
-      })
+      });
 
-      scale.value = withTiming(1, { duration: 300 })
-      rotate.value = withTiming(45, { duration: 300 })
+      scale.value = withTiming(1, { duration: 300 });
+      rotate.value = withTiming(45, { duration: 300 });
     }
 
-    setOpen(!open)
-  }
+    setOpen(!open);
+  };
 
   const animatedStyleLeft = useAnimatedStyle(() => ({
     transform: [
@@ -70,7 +70,7 @@ export default function CurvedBottomBar() {
       { scale: scale.value },
     ],
     opacity: scale.value,
-  }))
+  }));
 
   const animatedStyleRight = useAnimatedStyle(() => ({
     transform: [
@@ -79,11 +79,11 @@ export default function CurvedBottomBar() {
       { scale: scale.value },
     ],
     opacity: scale.value,
-  }))
+  }));
 
   const animatedIconStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${rotate.value}deg` }],
-  }))
+  }));
 
   const _renderIcon = (routeName, selectedTab) => {
     switch (routeName) {
@@ -96,7 +96,7 @@ export default function CurvedBottomBar() {
               routeName === selectedTab ? NAV_THEME[colorScheme].text : 'gray'
             }
           />
-        )
+        );
       case 'calendar':
         return (
           <Ionicons
@@ -106,7 +106,7 @@ export default function CurvedBottomBar() {
               routeName === selectedTab ? NAV_THEME[colorScheme].text : 'gray'
             }
           />
-        )
+        );
       case 'lesson-list':
         return (
           <MaterialCommunityIcons
@@ -116,7 +116,7 @@ export default function CurvedBottomBar() {
               routeName === selectedTab ? NAV_THEME[colorScheme].text : 'gray'
             }
           />
-        )
+        );
       default:
         return (
           <MaterialCommunityIcons
@@ -126,9 +126,9 @@ export default function CurvedBottomBar() {
               routeName === selectedTab ? NAV_THEME[colorScheme].text : 'gray'
             }
           />
-        )
+        );
     }
-  }
+  };
 
   const renderTabBar = ({ routeName, selectedTab, navigate }) => {
     return (
@@ -138,8 +138,8 @@ export default function CurvedBottomBar() {
       >
         {_renderIcon(routeName, selectedTab)}
       </TouchableOpacity>
-    )
-  }
+    );
+  };
 
   return (
     <CurvedBottomBarExpo.Navigator
@@ -169,8 +169,8 @@ export default function CurvedBottomBar() {
                 },
               ]}
               onPress={() => {
-                toggleMenu()
-                router.navigate('/schedule/create-lesson')
+                toggleMenu();
+                router.navigate('/schedule/create-lesson');
               }}
             >
               <MaterialCommunityIcons
@@ -195,8 +195,8 @@ export default function CurvedBottomBar() {
                 },
               ]}
               onPress={() => {
-                toggleMenu()
-                router.navigate('/schedule/create-client')
+                toggleMenu();
+                router.navigate('/schedule/create-client');
               }}
             >
               <MaterialCommunityIcons
@@ -249,7 +249,7 @@ export default function CurvedBottomBar() {
         component={LessonList}
       />
     </CurvedBottomBarExpo.Navigator>
-  )
+  );
 }
 
 export const styles = StyleSheet.create({
@@ -300,4 +300,4 @@ export const styles = StyleSheet.create({
     shadowRadius: 1.41,
     elevation: 1,
   },
-})
+});

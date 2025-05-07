@@ -1,7 +1,7 @@
-import * as SQLite from 'expo-sqlite'
+import * as SQLite from 'expo-sqlite';
 
-import { useSQLiteContext } from 'expo-sqlite'
-import { useEffect } from 'react'
+import { useSQLiteContext } from 'expo-sqlite';
+import { useEffect } from 'react';
 
 // Migrações
 const migrations = [
@@ -15,7 +15,7 @@ const migrations = [
           email TEXT NOT NULL UNIQUE,
           phone TEXT
         );
-      `)
+      `);
     },
   },
   {
@@ -32,7 +32,7 @@ const migrations = [
           teacher_id INTEGER NOT NULL,
           FOREIGN KEY (teacher_id) REFERENCES Teacher(id)
         );
-      `)
+      `);
     },
   },
   {
@@ -46,7 +46,7 @@ const migrations = [
           email TEXT NOT NULL UNIQUE,
           plan TEXT NOT NULL
         );
-      `)
+      `);
     },
   },
   {
@@ -60,63 +60,63 @@ const migrations = [
           FOREIGN KEY (client_id) REFERENCES Client(id),
           FOREIGN KEY (lesson_id) REFERENCES Lessons(id)
         );
-      `)
+      `);
     },
   },
-]
+];
 
 // Inicialização
 const initializeDatabase = async (db) => {
   await db.execAsync(
     `CREATE TABLE IF NOT EXISTS Version (key TEXT PRIMARY KEY, value TEXT);`,
-  )
+  );
   await db.execAsync(
     `INSERT OR IGNORE INTO Version (key, value) VALUES ("schema_version", "1");`,
-  )
-}
+  );
+};
 
 // Obter versão atual
 const getVersion = async (db) => {
   const row = (await db.getFirstAsync(
     `SELECT value FROM Version WHERE key = "schema_version";`,
-  )) as { value: string } | undefined
-  return row ? parseInt(row.value, 10) : 1
-}
+  )) as { value: string } | undefined;
+  return row ? parseInt(row.value, 10) : 1;
+};
 
 const setVersion = async (db, version: number) => {
   await db.execAsync(
     `UPDATE Version SET value = ? WHERE key = "schema_version";`,
     [version.toString()],
-  )
-}
+  );
+};
 
 // Aplicar migrações
 const applyMigrations = async (db) => {
-  const currentVersion = await getVersion(db)
+  const currentVersion = await getVersion(db);
   for (const m of migrations) {
     if (m.version > currentVersion) {
-      await m.script(db)
-      await setVersion(db, m.version)
+      await m.script(db);
+      await setVersion(db, m.version);
     }
   }
-}
+};
 // Provider do contexto
 const DatabaseInitializer = () => {
-  const db = useSQLiteContext()
+  const db = useSQLiteContext();
 
   useEffect(() => {
     const setup = async () => {
-      await db.execAsync('PRAGMA journal_mode = WAL;') // fora da transação!
+      await db.execAsync('PRAGMA journal_mode = WAL;'); // fora da transação!
       await db.withTransactionAsync(async () => {
-        await initializeDatabase(db)
-        await applyMigrations(db)
-      })
-    }
+        await initializeDatabase(db);
+        await applyMigrations(db);
+      });
+    };
 
-    setup()
-  }, [])
+    setup();
+  }, []);
 
-  return null
-}
+  return null;
+};
 
-export default DatabaseInitializer
+export default DatabaseInitializer;

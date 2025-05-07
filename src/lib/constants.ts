@@ -17,4 +17,4 @@ export const NAV_THEME = {
     text: 'hsl(283 27% 98%)', // foreground
     secondary: 'hsl(283 18% 12%)', // secondary
   },
-}
+};

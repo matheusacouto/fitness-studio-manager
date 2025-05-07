@@ -1,8 +1,8 @@
-import React from 'react'
-import { StyleSheet, View, Text, FlatList } from 'react-native'
+import React from 'react';
+import { StyleSheet, View, Text, FlatList } from 'react-native';
 
 interface LessonListProps {
-  data: { id: number, name: string, description: string }[];
+  data: { id: number; name: string; description: string }[];
 }
 
 export default function LessonListPage({ data }: LessonListProps) {
@@ -20,7 +20,7 @@ export default function LessonListPage({ data }: LessonListProps) {
         )}
       />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   itemDescription: {
     fontSize: 16,
   },
-})
+});

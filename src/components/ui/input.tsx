@@ -1,10 +1,10 @@
-import * as React from 'react'
-import { TextInput, type TextInputProps } from 'react-native'
-import { cn } from '@/src/lib/utils'
+import * as React from 'react';
+import { TextInput, type TextInputProps } from 'react-native';
+import { cn } from '@/src/lib/utils';
 
 const Input = React.forwardRef<
   React.ElementRef<typeof TextInput>,
-  TextInputProps,
+  TextInputProps
 >(({ className, placeholderClassName, ...props }, ref) => {
   return (
     <TextInput
@@ -17,9 +17,9 @@ const Input = React.forwardRef<
       placeholderClassName={cn('text-muted-foreground', placeholderClassName)}
       {...props}
     />
-  )
-})
+  );
+});
 
-Input.displayName = 'Input'
+Input.displayName = 'Input';
 
-export { Input }
+export { Input };

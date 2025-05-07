@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, Text, StyleSheet, Button } from 'react-native'
+import React from 'react';
+import { View, Text, StyleSheet, Button } from 'react-native';
 
 export default function ProfilePage() {
   return (
@@ -9,7 +9,7 @@ export default function ProfilePage() {
       <Text style={styles.info}>Email: john.doe@example.com</Text>
       <Button title="Edit Profile" onPress={() => {}} />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
   },
-})
+});

@@ -1,5 +1,5 @@
-import HomePage from '@/src/screens/HomePage'
+import HomePage from '@/src/screens/HomePage';
 
 export default function Home() {
-  return <HomePage />
+  return <HomePage />;
 }

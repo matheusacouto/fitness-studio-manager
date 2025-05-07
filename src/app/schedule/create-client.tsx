@@ -1,32 +1,32 @@
-import { useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
+import { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 
-import { useSQLiteContext } from 'expo-sqlite'
+import { useSQLiteContext } from 'expo-sqlite';
 
 export default function NewClient() {
-  const db = useSQLiteContext()
+  const db = useSQLiteContext();
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [plan, setPlan] = useState('')
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [plan, setPlan] = useState('');
 
   const handleSubmit = async () => {
     try {
       const submit = await db.runAsync(
         `INSERT INTO client (name, email, phone, plan) VALUES (?, ?, ?, ?)`,
         [name, email, phone, plan],
-      )
+      );
       console.log(
         'Inserted ID:',
         submit.lastInsertRowId,
         'Changes:',
         submit.changes,
-      )
+      );
     } catch (error) {
-      console.error('Failed to insert client:', error)
+      console.error('Failed to insert client:', error);
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -57,7 +57,7 @@ export default function NewClient() {
       />
       <Button title="Create Student" onPress={handleSubmit} />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     padding: 8,
   },
-})
+});

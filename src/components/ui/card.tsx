@@ -1,8 +1,8 @@
-import type { TextRef, ViewRef } from '@rn-primitives/types'
-import * as React from 'react'
-import { Text, type TextProps, View, type ViewProps } from 'react-native'
-import { cn } from '@/src/lib/utils'
-import { TextClassContext } from '@/src/components/ui/text'
+import type { TextRef, ViewRef } from '@rn-primitives/types';
+import * as React from 'react';
+import { Text, type TextProps, View, type ViewProps } from 'react-native';
+import { cn } from '@/src/lib/utils';
+import { TextClassContext } from '@/src/components/ui/text';
 
 const Card = React.forwardRef<ViewRef, ViewProps>(
   ({ className, ...props }, ref) => (
@@ -15,8 +15,8 @@ const Card = React.forwardRef<ViewRef, ViewProps>(
       {...props}
     />
   ),
-)
-Card.displayName = 'Card'
+);
+Card.displayName = 'Card';
 
 const CardHeader = React.forwardRef<ViewRef, ViewProps>(
   ({ className, ...props }, ref) => (
@@ -26,8 +26,8 @@ const CardHeader = React.forwardRef<ViewRef, ViewProps>(
       {...props}
     />
   ),
-)
-CardHeader.displayName = 'CardHeader'
+);
+CardHeader.displayName = 'CardHeader';
 
 const CardTitle = React.forwardRef<TextRef, TextProps>(
   ({ className, ...props }, ref) => (
@@ -42,8 +42,8 @@ const CardTitle = React.forwardRef<TextRef, TextProps>(
       {...props}
     />
   ),
-)
-CardTitle.displayName = 'CardTitle'
+);
+CardTitle.displayName = 'CardTitle';
 
 const CardDescription = React.forwardRef<TextRef, TextProps>(
   ({ className, ...props }, ref) => (
@@ -53,8 +53,8 @@ const CardDescription = React.forwardRef<TextRef, TextProps>(
       {...props}
     />
   ),
-)
-CardDescription.displayName = 'CardDescription'
+);
+CardDescription.displayName = 'CardDescription';
 
 const CardContent = React.forwardRef<ViewRef, ViewProps>(
   ({ className, ...props }, ref) => (
@@ -62,8 +62,8 @@ const CardContent = React.forwardRef<ViewRef, ViewProps>(
       <View ref={ref} className={cn('p-6 pt-0', className)} {...props} />
     </TextClassContext.Provider>
   ),
-)
-CardContent.displayName = 'CardContent'
+);
+CardContent.displayName = 'CardContent';
 
 const CardFooter = React.forwardRef<ViewRef, ViewProps>(
   ({ className, ...props }, ref) => (
@@ -73,7 +73,14 @@ const CardFooter = React.forwardRef<ViewRef, ViewProps>(
       {...props}
     />
   ),
-)
-CardFooter.displayName = 'CardFooter'
+);
+CardFooter.displayName = 'CardFooter';
 
-export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
+export {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+};
