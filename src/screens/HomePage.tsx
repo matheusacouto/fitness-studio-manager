@@ -1,6 +1,6 @@
-import { StyleSheet, View } from 'react-native'
-import ImageCard from '@/src/components/ImageCard'
-import { Text } from '../components/ui/text'
+import { StyleSheet, View } from 'react-native';
+import ImageCard from '@/src/components/ImageCard';
+import { Text } from '../components/ui/text';
 
 export default function HomePage() {
   return (
@@ -43,7 +43,7 @@ export default function HomePage() {
         />
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -54,4 +54,4 @@ const styles = StyleSheet.create({
     elevation: 2,
     backgroundColor: '#E9F6FA',
   },
-})
+});

@@ -1,15 +1,15 @@
-import { useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
+import { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 
 // eslint-disable-next-line import/no-unresolved
 
 export default function NewLesson() {
-  const [name, setName] = useState('')
-  const [dayOfWeek, setDayOfWeek] = useState('')
-  const [startTime, setStartTime] = useState('')
-  const [endTime, setEndTime] = useState('')
-  const [teacherId, setTeacherId] = useState('')
-  const [maxClients, setMaxClients] = useState('')
+  const [name, setName] = useState('');
+  const [dayOfWeek, setDayOfWeek] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  const [teacherId, setTeacherId] = useState('');
+  const [maxClients, setMaxClients] = useState('');
 
   const handleSubmit = () => {
     console.log({
@@ -19,8 +19,8 @@ export default function NewLesson() {
       endTime,
       teacherId,
       maxClients,
-    })
-  }
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -64,7 +64,7 @@ export default function NewLesson() {
       />
       <Button title="Criar" onPress={handleSubmit} />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     padding: 8,
   },
-})
+});

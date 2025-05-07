@@ -1,5 +1,5 @@
-import ProfilePage from '@/src/screens/ProfilePage'
+import ProfilePage from '@/src/screens/ProfilePage';
 
 export default function Profile() {
-  return <ProfilePage />
+  return <ProfilePage />;
 }

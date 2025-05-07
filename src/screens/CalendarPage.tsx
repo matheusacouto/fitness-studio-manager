@@ -1,37 +1,29 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { useEffect, useMemo, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
-import Timeline from 'react-native-timeline-flatlist'
-import LessonCard from '@/src/components/Card'
-import CalendarStrip from 'react-native-calendar-strip'
+import Timeline from 'react-native-timeline-flatlist';
+import LessonCard from '@/src/components/Card';
+import CalendarStrip from 'react-native-calendar-strip';
 
-import moment from 'moment'
-import 'moment/locale/pt-br'
+import moment from 'moment';
+import 'moment/locale/pt-br';
 
-import { Text } from '../components/ui/text'
-import { useColorScheme } from '@/src/hooks/useColorScheme'
-import { NAV_THEME } from '@/src/lib/constants'
+import { Text } from '../components/ui/text';
+import { useColorScheme } from '@/src/hooks/useColorScheme';
+import { NAV_THEME } from '@/src/lib/constants';
 
 export default function CalendarPage() {
-  const [selectedDate, setSelectedDate] = useState(moment())
-  const { colorScheme } = useColorScheme()
-  const themeColors = colorScheme === 'dark' ? NAV_THEME.dark : NAV_THEME.light
+  const [selectedDate, setSelectedDate] = useState(moment());
+  const { colorScheme } = useColorScheme();
+  const themeColors = colorScheme === 'dark' ? NAV_THEME.dark : NAV_THEME.light;
 
   useEffect(() => {
-    moment.locale('pt-br')
-  }, [])
+    moment.locale('pt-br');
+  }, []);
 
   useEffect(() => {
-    setSelectedDate(moment())
-  }, [])
-
-  function getLightRandomColor() {
-    const r = Math.floor(160 + Math.random() * 55)
-    const g = Math.floor(170 + Math.random() * 55)
-    const b = Math.floor(170 + Math.random() * 55)
-    return `rgb(${r}, ${g}, ${b})`
-  }
-
+    setSelectedDate(moment());
+  }, []);
   // Examples of data
 
   const markedDates = [
@@ -70,11 +62,11 @@ export default function CalendarPage() {
       description: `Esta turma possui ${Math.floor(Math.random() * 100)} alunos vinculados`,
       date: moment(),
     },
-  ]
+  ];
 
   const filteredData = useMemo(() => {
-    return markedDates.filter((item) => item.date.isSame(selectedDate, 'day'))
-  }, [selectedDate])
+    return markedDates.filter((item) => item.date.isSame(selectedDate, 'day'));
+  }, [selectedDate]);
 
   return (
     <View
@@ -149,7 +141,7 @@ export default function CalendarPage() {
         />
       )}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -179,4 +171,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'gray',
   },
-})
+});

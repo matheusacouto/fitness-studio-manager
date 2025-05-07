@@ -1,13 +1,13 @@
-import React from 'react'
-import { View, StyleSheet } from 'react-native'
-import Ionicons from '@expo/vector-icons/Ionicons'
-import ProfileIcon from '@/src/components/ProfileIcon'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useColorScheme } from '@/src/hooks/useColorScheme'
-import { NAV_THEME } from '@/src/lib/constants'
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import ProfileIcon from '@/src/components/ProfileIcon';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useColorScheme } from '@/src/hooks/useColorScheme';
+import { NAV_THEME } from '@/src/lib/constants';
 
 const Header = () => {
-  const { colorScheme } = useColorScheme() // colorScheme is an object
+  const { colorScheme } = useColorScheme(); // colorScheme is an object
 
   return (
     <SafeAreaView>
@@ -28,8 +28,8 @@ const Header = () => {
         <ProfileIcon />
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   header: {
@@ -45,6 +45,6 @@ const styles = StyleSheet.create({
   icon: {
     paddingHorizontal: 8,
   },
-})
+});
 
-export default Header
+export default Header;

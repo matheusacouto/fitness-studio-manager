@@ -1,9 +1,9 @@
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
-import React, { useState, useMemo } from 'react'
-import { View, StyleSheet, Text, FlatList } from 'react-native'
-import { IconButton, Divider, Chip, Searchbar } from 'react-native-paper'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import React, { useState, useMemo } from 'react';
+import { View, StyleSheet, Text, FlatList } from 'react-native';
+import { IconButton, Chip, Searchbar } from 'react-native-paper';
 
-const data = []
+const data = [];
 
 const FilterButton = ({ onPress }) => (
   <IconButton
@@ -13,7 +13,7 @@ const FilterButton = ({ onPress }) => (
     size={20}
     onPress={onPress}
   />
-)
+);
 
 const SearchButton = ({ onPress }) => (
   <IconButton
@@ -23,46 +23,46 @@ const SearchButton = ({ onPress }) => (
     size={20}
     onPress={onPress}
   />
-)
+);
 
 const TableHeader = () => (
   <View style={[styles.row]}>
     <Text style={styles.cell}>Nome</Text>
     <Text style={styles.cell}>Situação</Text>
   </View>
-)
+);
 
 const TableRow = ({ item }) => (
   <View style={styles.row}>
     <Text style={styles.cell}>{item.name}</Text>
     <Text style={styles.cell}>{item.status}</Text>
   </View>
-)
+);
 
 export default function ClientListPage() {
-  const [showFilters, setShowFilters] = useState(false)
-  const [selectedFilter, setSelectedFilter] = useState('Todos')
-  const [showSearch, setShowSearch] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState('Todos');
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const filteredData = useMemo(() => {
-    let list = data
+    let list = data;
 
     if (selectedFilter !== 'Todos') {
-      list = list.filter((item) => item.status === selectedFilter)
+      list = list.filter((item) => item.status === selectedFilter);
     }
 
     if (searchQuery.trim() !== '') {
-      const query = searchQuery.toLowerCase()
-      list = list.filter((item) => item.name.toLowerCase().includes(query))
+      const query = searchQuery.toLowerCase();
+      list = list.filter((item) => item.name.toLowerCase().includes(query));
     }
 
-    return list
-  }, [selectedFilter, searchQuery])
+    return list;
+  }, [selectedFilter, searchQuery]);
 
   const handleChipPress = (value) => {
-    setSelectedFilter((prev) => (prev === value ? 'Todos' : value))
-  }
+    setSelectedFilter((prev) => (prev === value ? 'Todos' : value));
+  };
 
   return (
     <View style={styles.container}>
@@ -92,13 +92,13 @@ export default function ClientListPage() {
       {showFilters && (
         <View style={styles.chipsContainer}>
           {['Todos', 'Pago', 'Pendente'].map((label) => {
-            const isSelected = selectedFilter === label
+            const isSelected = selectedFilter === label;
 
             const getIconName = () => {
-              if (label === 'Pago') return 'cash-check'
-              if (label === 'Pendente') return 'cash-remove'
-              return 'check-circle-outline'
-            }
+              if (label === 'Pago') return 'cash-check';
+              if (label === 'Pendente') return 'cash-remove';
+              return 'check-circle-outline';
+            };
 
             return (
               <Chip
@@ -125,7 +125,7 @@ export default function ClientListPage() {
                   </Text>
                 </View>
               </Chip>
-            )
+            );
           })}
         </View>
       )}
@@ -138,7 +138,7 @@ export default function ClientListPage() {
         renderItem={TableRow}
       />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -198,4 +198,4 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     fontSize: 16,
   },
-})
+});

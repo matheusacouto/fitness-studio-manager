@@ -1,5 +1,5 @@
-import CalendarPage from '@/src/screens/CalendarPage'
+import CalendarPage from '@/src/screens/CalendarPage';
 
 export default function Calendar() {
-  return <CalendarPage />
+  return <CalendarPage />;
 }

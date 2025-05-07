@@ -1,5 +1,5 @@
-import { useColorScheme } from 'react-native'
-import Ionicons from '@expo/vector-icons/Ionicons'
+import { useColorScheme } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import {
   StyleProp,
   StyleSheet,
@@ -7,19 +7,19 @@ import {
   View,
   TextStyle,
   ImageBackground,
-} from 'react-native'
+} from 'react-native';
 import {
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/src/components/ui/card'
+} from '@/src/components/ui/card';
 
-import { Text } from '@/src/components/ui/text'
+import { Text } from '@/src/components/ui/text';
 
-import LightImage from '@/src/assets/images/image-card-light.png'
-import DarkImage from '@/src/assets/images/image-card-dark.png'
+import LightImage from '@/src/assets/images/image-card-light.png';
+import DarkImage from '@/src/assets/images/image-card-dark.png';
 
 /**
  * Renders a lesson card with a title, description, and additional content.
@@ -38,21 +38,21 @@ const RenderImageCard = ({
   footer,
   contentTextStyle,
 }: {
-  cardStyle?: StyleProp<ViewStyle>,
-  headerStyle?: StyleProp<ViewStyle>,
-  contentStyle?: StyleProp<ViewStyle>,
-  contentTextStyle?: StyleProp<TextStyle>,
-  footerStyle?: StyleProp<ViewStyle>,
+  cardStyle?: StyleProp<ViewStyle>;
+  headerStyle?: StyleProp<ViewStyle>;
+  contentStyle?: StyleProp<ViewStyle>;
+  contentTextStyle?: StyleProp<TextStyle>;
+  footerStyle?: StyleProp<ViewStyle>;
   data: {
-    id: number,
-    title: string,
-    description: string,
-    subtitle?: string,
-  },
-  footer?: string,
+    id: number;
+    title: string;
+    description: string;
+    subtitle?: string;
+  };
+  footer?: string;
 }) => {
-  const deviceTheme = useColorScheme()
-  const isDarkTheme = deviceTheme === 'dark'
+  const deviceTheme = useColorScheme();
+  const isDarkTheme = deviceTheme === 'dark';
 
   return (
     <ImageBackground
@@ -134,10 +134,10 @@ const RenderImageCard = ({
         </CardFooter>
       )}
     </ImageBackground>
-  )
-}
+  );
+};
 
-export default RenderImageCard
+export default RenderImageCard;
 
 const styles = StyleSheet.create({
   card: {
@@ -149,4 +149,4 @@ const styles = StyleSheet.create({
   content: {
     marginTop: 10,
   },
-})
+});

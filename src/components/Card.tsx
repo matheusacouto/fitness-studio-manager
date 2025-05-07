@@ -1,24 +1,38 @@
-import Ionicons from '@expo/vector-icons/Ionicons'
-import { StyleProp, StyleSheet, ViewStyle, View, Text, TextStyle } from 'react-native'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/src/components/ui/card'
-import { useColorScheme } from '@/src/hooks/useColorScheme'
-import { NAV_THEME } from '../lib/constants'
+import Ionicons from '@expo/vector-icons/Ionicons';
+import {
+  StyleProp,
+  StyleSheet,
+  ViewStyle,
+  View,
+  Text,
+  TextStyle,
+} from 'react-native';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/src/components/ui/card';
+import { useColorScheme } from '@/src/hooks/useColorScheme';
+import { NAV_THEME } from '../lib/constants';
 
 export interface LessonCardDataProps {
-  id: number
-  title: string
-  description: string
-  subtitle?: string
+  id: number;
+  title: string;
+  description: string;
+  subtitle?: string;
 }
 
 export interface LessonCardProps {
-  cardStyle?: StyleProp<ViewStyle>
-  headerStyle?: StyleProp<ViewStyle>
-  contentStyle?: StyleProp<ViewStyle>
-  contentTextStyle?: StyleProp<TextStyle>
-  footerStyle?: StyleProp<ViewStyle>
-  data: LessonCardDataProps
-  footer?: string
+  cardStyle?: StyleProp<ViewStyle>;
+  headerStyle?: StyleProp<ViewStyle>;
+  contentStyle?: StyleProp<ViewStyle>;
+  contentTextStyle?: StyleProp<TextStyle>;
+  footerStyle?: StyleProp<ViewStyle>;
+  data: LessonCardDataProps;
+  footer?: string;
 }
 
 /**
@@ -35,13 +49,21 @@ const LessonCard = ({
   footer,
   contentTextStyle,
 }: LessonCardProps) => {
-  const { colorScheme } = useColorScheme()
-  const themeColors = colorScheme === 'dark' ? NAV_THEME.dark : NAV_THEME.light
+  const { colorScheme } = useColorScheme();
+  const themeColors = colorScheme === 'dark' ? NAV_THEME.dark : NAV_THEME.light;
 
   return (
-    <Card style={[styles.card, cardStyle, { backgroundColor: themeColors.text }]}>
+    <Card
+      style={[styles.card, cardStyle, { backgroundColor: themeColors.text }]}
+    >
       <CardHeader style={headerStyle}>
-        <CardTitle style={{ fontSize: 20, fontWeight: 'bold', color: themeColors.background }}>
+        <CardTitle
+          style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: themeColors.background,
+          }}
+        >
           {data.title}
         </CardTitle>
         {data.subtitle && (
@@ -53,7 +75,12 @@ const LessonCard = ({
         )}
       </CardHeader>
       <CardContent style={[styles.content, contentStyle]}>
-        <Text style={[{ lineHeight: 18, color: themeColors.background }, contentTextStyle]}>
+        <Text
+          style={[
+            { lineHeight: 18, color: themeColors.background },
+            contentTextStyle,
+          ]}
+        >
           {data.description}
         </Text>
       </CardContent>
@@ -70,7 +97,11 @@ const LessonCard = ({
             }}
           >
             <View>
-              <Ionicons name="barbell-outline" size={20} color={themeColors.background} />
+              <Ionicons
+                name="barbell-outline"
+                size={20}
+                color={themeColors.background}
+              />
             </View>
             <View>
               <Text
@@ -87,10 +118,10 @@ const LessonCard = ({
         </CardFooter>
       )}
     </Card>
-  )
-}
+  );
+};
 
-export default LessonCard
+export default LessonCard;
 
 const styles = StyleSheet.create({
   card: {
@@ -103,5 +134,4 @@ const styles = StyleSheet.create({
   content: {
     marginTop: 10,
   },
-})
-
+});
