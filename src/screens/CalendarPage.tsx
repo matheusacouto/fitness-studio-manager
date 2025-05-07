@@ -1,14 +1,21 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import CalendarStrip from 'react-native-calendar-strip'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+
 import Timeline from 'react-native-timeline-flatlist'
 import LessonCard from '@/src/components/Card'
+import CalendarStrip from 'react-native-calendar-strip'
 
 import moment from 'moment'
 import 'moment/locale/pt-br'
 
-export default function LessonList() {
+import { Text } from '../components/ui/text'
+import { useColorScheme } from '@/src/hooks/useColorScheme'
+import { NAV_THEME } from '@/src/lib/constants'
+
+export default function CalendarPage() {
   const [selectedDate, setSelectedDate] = useState(moment())
+  const { colorScheme } = useColorScheme()
+  const themeColors = colorScheme === 'dark' ? NAV_THEME.dark : NAV_THEME.light
 
   useEffect(() => {
     moment.locale('pt-br')
@@ -25,95 +32,63 @@ export default function LessonList() {
     return `rgb(${r}, ${g}, ${b})`
   }
 
-  // Exemples of data
+  // Examples of data
 
-  const data = [
+  const markedDates = [
     {
       id: 1,
       time: '09:00 - 10:00',
       title: 'Turma 1',
       description: `Esta turma possui ${Math.floor(Math.random() * 100)} alunos vinculados`,
-      date: moment().add(0, 'days'),
+      date: moment(),
     },
     {
       id: 2,
       time: '09:00 - 10:00',
       title: 'Turma 2',
       description: `Esta turma possui ${Math.floor(Math.random() * 100)} alunos vinculados`,
-      date: moment().add(1, 'days'),
+      date: moment(),
     },
     {
       id: 3,
       time: '09:00 - 10:00',
       title: 'Turma 3',
       description: `Esta turma possui ${Math.floor(Math.random() * 100)} alunos vinculados`,
-      date: moment().add(2, 'days'),
+      date: moment(),
     },
     {
       id: 4,
       time: '09:00 - 10:00',
       title: 'Turma 4',
       description: `Esta turma possui ${Math.floor(Math.random() * 100)} alunos vinculados`,
-      date: moment().add(3, 'days'),
+      date: moment(),
     },
     {
       id: 5,
       time: '09:00 - 10:00',
       title: 'Turma 5',
       description: `Esta turma possui ${Math.floor(Math.random() * 100)} alunos vinculados`,
-      date: moment().add(4, 'days'),
-    },
-    {
-      id: 6,
-      time: '10:00 - 11:00',
-      title: 'Turma 6',
-      description: `Esta turma possui ${Math.floor(Math.random() * 100)} alunos vinculados`,
-      date: moment().add(4, 'days'),
-    },
-    {
-      id: 7,
-      time: '11:00 - 12:00',
-      title: 'Turma 7',
-      description: `Esta turma possui ${Math.floor(Math.random() * 100)} alunos vinculados`,
-      date: moment().add(4, 'days'),
-    },
-    {
-      id: 8,
-      time: '12:00 - 13:00',
-      title: 'Turma 8',
-      description: `Esta turma possui ${Math.floor(Math.random() * 100)} alunos vinculados`,
-      date: moment().add(4, 'days'),
+      date: moment(),
     },
   ]
 
-  const dataComCores = useMemo(() => {
-    return data.map((item) => {
-      const color = getLightRandomColor()
-      return {
-        ...item,
-        cardColor: color,
-        circleColor: color,
-        lineColor: color,
-        teacher: 'Gel',
-      }
-    })
-  }, [])
-
   const filteredData = useMemo(() => {
-    return dataComCores.filter((item) => item.date.isSame(selectedDate, 'day'))
-  }, [dataComCores, selectedDate])
+    return markedDates.filter((item) => item.date.isSame(selectedDate, 'day'))
+  }, [selectedDate])
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: themeColors.background }]}
+    >
       <CalendarStrip
         scrollable
+        scrollToOnSetSelectedDate={false}
+        markedDates={markedDates}
         daySelectionAnimation={{
           type: 'background',
           highlightColor: '#00997d',
           duration: 100,
         }}
-        iconLeft={null}
-        iconRight={null}
         highlightDateContainerStyle={{
           borderRadius: 5,
           elevation: 1,
@@ -122,12 +97,11 @@ export default function LessonList() {
         highlightDateNumberStyle={{ fontSize: 16, marginTop: 5 }}
         style={{
           flexGrow: 0.19,
-          paddingTop: 20,
           paddingBottom: 1,
         }}
         calendarHeaderStyle={{
-          color: 'black',
-          fontSize: 18,
+          color: themeColors.text,
+          fontSize: 20,
           textTransform: 'capitalize',
         }}
         dateNumberStyle={{ fontSize: 16, marginTop: 5 }}
@@ -139,40 +113,41 @@ export default function LessonList() {
         minDate={moment().subtract(15, 'days')}
         maxDate={moment().add(15, 'days')}
       />
-      <Timeline
-        data={filteredData}
-        showTime={false}
-        innerCircle="dot"
-        style={styles.list}
-        renderDetail={(rowData) => (
-          <View style={{ flexDirection: 'column' }}>
-            <Text
-              style={{
-                marginBottom: 15,
-                color: 'black',
-                fontWeight: 'bold',
-                fontSize: 16,
-                alignSelf: 'flex-start',
-              }}
-            >
-              {rowData.time}
-            </Text>
-            <LessonCard
-              cardStyle={{
-                backgroundColor: rowData.cardColor,
-                elevation: 7,
-                marginRight: 15,
-              }}
-              data={{
-                subtitle: rowData.teacher,
-                id: rowData.id,
-                title: rowData.title,
-                description: rowData.description,
-              }}
-            />
-          </View>
-        )}
-      />
+      {markedDates.length === 0 ? (
+        <View style={styles.noDataView}>
+          <Text style={styles.noDataText}>
+            Nenhuma turma cadastrada, clique no "+" para adicionar
+          </Text>
+        </View>
+      ) : (
+        <Timeline
+          data={filteredData}
+          showTime={false}
+          innerCircle="dot"
+          lineColor={themeColors.text}
+          circleColor={themeColors.text}
+          style={styles.list}
+          renderDetail={(rowData) => (
+            <View style={{ flexDirection: 'column' }}>
+              <Text style={[styles.cardText, { color: themeColors.text }]}>
+                {rowData.time}
+              </Text>
+              <LessonCard
+                cardStyle={{
+                  backgroundColor: themeColors.text,
+                  marginRight: 15,
+                }}
+                data={{
+                  subtitle: rowData.teacher,
+                  id: rowData.id,
+                  title: rowData.title,
+                  description: rowData.description,
+                }}
+              />
+            </View>
+          )}
+        />
+      )}
     </View>
   )
 }
@@ -180,11 +155,28 @@ export default function LessonList() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 10,
   },
   list: {
-    backgroundColor: '#EBF3F9',
     flex: 1,
-    paddingBottom: 40,
+    paddingBottom: 60,
     paddingTop: 15,
+  },
+  cardText: {
+    marginBottom: 15,
+    fontWeight: 'bold',
+    fontSize: 16,
+    alignSelf: 'flex-start',
+  },
+  noDataView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noDataText: {
+    padding: 20,
+    textAlign: 'center',
+    fontSize: 18,
+    color: 'gray',
   },
 })

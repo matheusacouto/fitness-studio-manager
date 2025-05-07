@@ -1,23 +1,9 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
-import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import React, { useState, useMemo } from 'react'
 import { View, StyleSheet, Text, FlatList } from 'react-native'
 import { IconButton, Divider, Chip, Searchbar } from 'react-native-paper'
 
-const data = [
-  { name: 'João', status: 'Pendente' },
-  { name: 'Maria', status: 'Pago' },
-  { name: 'Lucas', status: 'Pendente' },
-  { name: 'Pedro', status: 'Pendente' },
-  { name: 'Ana', status: 'Pago' },
-  { name: 'Guilherme', status: 'Pendente' },
-  { name: 'João', status: 'Pendente' },
-  { name: 'Maria', status: 'Pago' },
-  { name: 'Lucas', status: 'Pendente' },
-  { name: 'Pedro', status: 'Pendente' },
-  { name: 'Ana', status: 'Pago' },
-  { name: 'Guilherme', status: 'Pendente' },
-]
+const data = []
 
 const FilterButton = ({ onPress }) => (
   <IconButton
@@ -40,7 +26,7 @@ const SearchButton = ({ onPress }) => (
 )
 
 const TableHeader = () => (
-  <View style={[styles.row, styles.header]}>
+  <View style={[styles.row]}>
     <Text style={styles.cell}>Nome</Text>
     <Text style={styles.cell}>Situação</Text>
   </View>
@@ -53,7 +39,7 @@ const TableRow = ({ item }) => (
   </View>
 )
 
-export default function ClientList() {
+export default function ClientListPage() {
   const [showFilters, setShowFilters] = useState(false)
   const [selectedFilter, setSelectedFilter] = useState('Todos')
   const [showSearch, setShowSearch] = useState(false)
@@ -89,7 +75,7 @@ export default function ClientList() {
         </View>
       </View>
 
-      <Divider />
+      {/* <Divider /> */}
 
       <View style={styles.searchContainer}>
         {showSearch && (
@@ -158,10 +144,8 @@ export default function ClientList() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     borderRadius: 20,
     margin: 15,
-    maxHeight: '80%',
   },
   headerRow: {
     flexDirection: 'row',

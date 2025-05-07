@@ -1,4 +1,4 @@
-import '~/css/global.css'
+import '@/global.css'
 
 import {
   Theme,
@@ -10,10 +10,10 @@ import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import * as React from 'react'
 import { Platform } from 'react-native'
-import { NAV_THEME } from '@/src/utils/constants'
-import { useColorScheme } from '@/src/utils/useColorScheme'
+import { NAV_THEME } from '@/src/lib/constants'
+import { useColorScheme } from '@/src/hooks/useColorScheme'
 import { SQLiteProvider } from 'expo-sqlite'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Header from '@/src/components/Header'
 
 const LIGHT_THEME: Theme = {
@@ -53,18 +53,23 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={LIGHT_THEME}>
-      <StatusBar style="dark" />
-      <SQLiteProvider databaseName="database.db">
-        <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaProvider>
+      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+        <SQLiteProvider databaseName="database.db">
+          <StatusBar
+            backgroundColor={NAV_THEME[colorScheme].secondary}
+            style={isDarkColorScheme ? 'light' : 'dark'}
+          />
+
           <Stack>
             <Stack.Screen
               name="(tabs)"
               options={{ header: () => <Header /> }}
             />
             <Stack.Screen
-              name="(create)/new_lesson"
+              name="schedule/create-lesson"
               options={{
+                headerTitleAlign: 'center',
                 title: 'Nova turma',
                 presentation: 'formSheet',
                 sheetAllowedDetents: 'fitToContents',
@@ -72,19 +77,27 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
-              name="(create)/new_client"
+              name="schedule/create-client"
               options={{
-                title: 'Novo aluno',
                 headerTitleAlign: 'center',
                 presentation: 'formSheet',
                 sheetAllowedDetents: 'fitToContents',
                 sheetCornerRadius: 20,
               }}
             />
+            <Stack.Screen
+              name="lessons/[id]"
+              options={{
+                headerTitleAlign: 'center',
+                presentation: 'card',
+                sheetAllowedDetents: 'fitToContents',
+                sheetCornerRadius: 20,
+              }}
+            />
           </Stack>
-        </SafeAreaView>
-      </SQLiteProvider>
-    </ThemeProvider>
+        </SQLiteProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   )
 }
 

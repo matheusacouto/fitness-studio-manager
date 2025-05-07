@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, Button } from 'react-native'
 
-export default function AccountPage() {
+export default function ProfilePage() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Account Page</Text>

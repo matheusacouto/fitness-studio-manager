@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import { CurvedBottomBarExpo } from 'react-native-curved-bottom-bar'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
@@ -11,11 +11,15 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 
-import HomePage from '.'
-import ClientList from './client_list'
-import LessonList from './lesson_list'
+import Home from '@/src/app/(tabs)'
+import ClientList from '@/src/app/(tabs)/client-list'
+import Calendar from '@/src/app/(tabs)/calendar'
+import LessonList from '@/src/app/(tabs)/lesson-list'
 
-export default function TabBar() {
+import { useColorScheme } from '@/src/hooks/useColorScheme'
+import { NAV_THEME } from '@/src/lib/constants'
+
+export default function CurvedBottomBar() {
   const [open, setOpen] = useState(false)
   const scale = useSharedValue(0)
   const translateX1 = useSharedValue(0) // botão 1
@@ -24,6 +28,8 @@ export default function TabBar() {
   const translateY2 = useSharedValue(0)
   const rotate = useSharedValue(0)
   const radius = 80
+
+  const { colorScheme } = useColorScheme()
 
   const toggleMenu = () => {
     if (open) {
@@ -80,19 +86,48 @@ export default function TabBar() {
   }))
 
   const _renderIcon = (routeName, selectedTab) => {
-    return routeName === 'home' || routeName === 'lesson_list' ? (
-      <Ionicons
-        name={routeName === 'home' ? 'home-outline' : 'calendar-outline'}
-        size={25}
-        color={routeName === selectedTab ? 'black' : 'gray'}
-      />
-    ) : (
-      <MaterialCommunityIcons
-        name="weight-lifter"
-        size={25}
-        color={routeName === selectedTab ? 'black' : 'gray'}
-      />
-    )
+    switch (routeName) {
+      case 'index':
+        return (
+          <Ionicons
+            name="home-outline"
+            size={25}
+            color={
+              routeName === selectedTab ? NAV_THEME[colorScheme].text : 'gray'
+            }
+          />
+        )
+      case 'calendar':
+        return (
+          <Ionicons
+            name="calendar-outline"
+            size={25}
+            color={
+              routeName === selectedTab ? NAV_THEME[colorScheme].text : 'gray'
+            }
+          />
+        )
+      case 'lesson-list':
+        return (
+          <MaterialCommunityIcons
+            name="account-group-outline"
+            size={25}
+            color={
+              routeName === selectedTab ? NAV_THEME[colorScheme].text : 'gray'
+            }
+          />
+        )
+      default:
+        return (
+          <MaterialCommunityIcons
+            name="weight-lifter"
+            size={25}
+            color={
+              routeName === selectedTab ? NAV_THEME[colorScheme].text : 'gray'
+            }
+          />
+        )
+    }
   }
 
   const renderTabBar = ({ routeName, selectedTab, navigate }) => {
@@ -108,115 +143,134 @@ export default function TabBar() {
 
   return (
     <CurvedBottomBarExpo.Navigator
-      screenOptions={{ headerShown: false }}
       type="DOWN"
       circlePosition="RIGHT"
-      shadowStyle={styles.shadow}
-      height={55}
+      initialRouteName="index"
+      tabBar={renderTabBar}
       circleWidth={50}
-      bgColor="white"
-      initialRouteName="home"
-      borderTopLeftRight
+      borderColor={NAV_THEME[colorScheme].border}
+      screenOptions={{ headerShown: false }}
+      height={55}
+      bgColor={NAV_THEME[colorScheme].secondary}
+      // borderTopLeftRight
       renderCircle={({ selectedTab, navigate }) => (
-        <View style={styles.btnCircleUp}>
-          <Animated.View
-            style={[styles.fabOption, animatedStyleLeft]}
-            pointerEvents={open ? 'auto' : 'none'}
-          >
+        <Animated.View style={[styles.btnCircleUp]}>
+          <Animated.View style={[styles.fabOption, animatedStyleLeft]}>
             <TouchableOpacity
-              style={styles.fabSmall}
-              onPress={() => router.push('/(create)/new_lesson')}
-              onPressOut={toggleMenu}
+              style={[
+                styles.fabSmall,
+                {
+                  backgroundColor: NAV_THEME[colorScheme].background,
+                  borderWidth: colorScheme === 'dark' ? 1 : 0,
+                  borderColor:
+                    colorScheme === 'dark'
+                      ? NAV_THEME[colorScheme].border
+                      : 'transparent',
+                },
+              ]}
+              onPress={() => {
+                toggleMenu()
+                router.navigate('/schedule/create-lesson')
+              }}
             >
               <MaterialCommunityIcons
                 name="account-group-outline"
                 size={24}
-                color="black"
+                color={NAV_THEME[colorScheme].text}
               />
             </TouchableOpacity>
           </Animated.View>
 
-          <Animated.View
-            style={[styles.fabOption, animatedStyleRight]}
-            pointerEvents={open ? 'auto' : 'none'}
-          >
+          <Animated.View style={[styles.fabOption, animatedStyleRight]}>
             <TouchableOpacity
-              style={styles.fabSmall}
-              onPress={() => router.push('/(create)/new_client')}
-              onPressOut={toggleMenu}
+              style={[
+                styles.fabSmall,
+                {
+                  backgroundColor: NAV_THEME[colorScheme].background,
+                  borderWidth: colorScheme === 'dark' ? 1 : 0,
+                  borderColor:
+                    colorScheme === 'dark'
+                      ? NAV_THEME[colorScheme].border
+                      : 'transparent',
+                },
+              ]}
+              onPress={() => {
+                toggleMenu()
+                router.navigate('/schedule/create-client')
+              }}
             >
               <MaterialCommunityIcons
                 name="weight-lifter"
                 size={24}
-                color="black"
+                color={NAV_THEME[colorScheme].text}
               />
             </TouchableOpacity>
           </Animated.View>
 
-          <TouchableOpacity style={styles.fabMain} onPress={toggleMenu}>
-            <Animated.View
-              style={animatedIconStyle}
-              key={open ? 'open-left' : 'closed-left'}
-            >
-              <Ionicons name="add" size={30} color="black" />
+          <TouchableOpacity
+            style={[
+              styles.fabMain,
+              {
+                backgroundColor: NAV_THEME[colorScheme].background,
+                borderColor: NAV_THEME[colorScheme].border,
+              },
+            ]}
+            onPress={toggleMenu}
+          >
+            <Animated.View style={animatedIconStyle}>
+              <Ionicons
+                name="add"
+                size={30}
+                color={NAV_THEME[colorScheme].text}
+              />
             </Animated.View>
           </TouchableOpacity>
-        </View>
+        </Animated.View>
       )}
-      tabBar={renderTabBar}
     >
       <CurvedBottomBarExpo.Screen
-        name="home"
+        name="index"
         position="LEFT"
-        component={HomePage}
+        component={Home}
       />
       <CurvedBottomBarExpo.Screen
-        name="lesson_list"
+        name="calendar"
         position="RIGHT"
-        component={LessonList}
+        component={Calendar}
       />
       <CurvedBottomBarExpo.Screen
-        name="financial"
+        name="client-list"
         position="LEFT"
         component={ClientList}
       />
-      {/* <CurvedBottomBarExpo.Screen
-        name="account"
-        position="RIGHT"
-        component={AccountPage}
-      /> */}
+      <CurvedBottomBarExpo.Screen
+        name="lesson-list"
+        position="LEFT"
+        component={LessonList}
+      />
     </CurvedBottomBarExpo.Navigator>
   )
 }
 
 export const styles = StyleSheet.create({
   fabMain: {
-    backgroundColor: '#fff',
     width: 60,
     height: 60,
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    // elevation: 5,
+    borderWidth: 1,
   },
   fabOption: {
     position: 'absolute',
-    // zIndex: 10, // Adiciona isso para garantir que fique acima
   },
   fabSmall: {
     width: 45,
     height: 45,
-    borderRadius: 22.5,
-    backgroundColor: '#fff',
+    borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 3,
-  },
-  shadow: {
-    shadowColor: '#DDDDDD',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 1,
-    shadowRadius: 5,
+    elevation: 1,
   },
   tabbarItem: {
     flex: 1,
@@ -227,29 +281,17 @@ export const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  shawdow: {
-    shadowColor: '#DDDDDD',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 5,
-  },
   button: {
     flex: 1,
     justifyContent: 'center',
   },
-  bottomBar: {},
   btnCircleUp: {
     width: 60,
     height: 60,
     borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
     bottom: 30,
-    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,

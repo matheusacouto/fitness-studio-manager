@@ -1,15 +1,15 @@
-import React from 'react'
+import { useState } from 'react'
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
 
 import { useSQLiteContext } from 'expo-sqlite'
 
-export default function NewStudent() {
+export default function NewClient() {
   const db = useSQLiteContext()
 
-  const [name, setName] = React.useState('')
-  const [email, setEmail] = React.useState('')
-  const [phone, setPhone] = React.useState('')
-  const [plan, setPlan] = React.useState('')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [plan, setPlan] = useState('')
 
   const handleSubmit = async () => {
     try {
@@ -30,30 +30,30 @@ export default function NewStudent() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>New Student</Text>
+      <Text style={styles.title}>Novo Aluno</Text>
       <TextInput
         style={styles.input}
         placeholder="Name"
         value={name}
-        onChangeText={(text) => setName(text)}
+        onChangeText={setName}
       />
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={setEmail}
       />
       <TextInput
         style={styles.input}
-        placeholder="Phone"
+        placeholder="Telefone"
         value={phone}
-        onChangeText={(text) => setPhone(text)}
+        onChangeText={setPhone}
       />
       <TextInput
         style={styles.input}
-        placeholder="Plan"
+        placeholder="Plano"
         value={plan}
-        onChangeText={(text) => setPlan(text)}
+        onChangeText={setPlan}
       />
       <Button title="Create Student" onPress={handleSubmit} />
     </View>
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
+    borderRadius: 5,
     borderColor: 'gray',
     borderWidth: 1,
     marginBottom: 16,
